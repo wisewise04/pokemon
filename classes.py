@@ -7,7 +7,21 @@ class Trainer:
 
     def __init__(self,name,pokemon):
         self.name =name
-        self.pokemon_list.append(pokemon)        
+        self.pokemon_list.append(pokemon)
+
+    def change_pokemon(self):
+        for pokemon in self.pokemon_list:
+            if pokemon.curr_hp>0:
+                print(pokemon.name,"\t")
+        notchanged = True
+        while notchanged:    
+            name = input("바꾸고 싶은 포켓몬을 입력하세요 : ")
+            for self.pokemon in self.pokemon_list:
+                if self.pokemon.name ==name:
+                    self.pokemon_list.remove(pokemon)
+                    self.pokemon_list.insert(0,pokemon)
+                    notchanged = False
+                    
 
 class Pokemon:
     name = ""
@@ -26,6 +40,7 @@ class Pokemon:
         self.upgrade = upgrade
 
     def attack(self,enemy,trainer):
+
         enemy.curr_hp -= self.damage
         if(enemy.curr_hp<=0):
             capture = input("이 포켓몬을 진짜로진짜로 잡으시겠습니까???[y/n]")
@@ -33,6 +48,21 @@ class Pokemon:
                 trainer.pokemon_list.append(enemy)
                 # trainer.pokemon_dict.append(enemy.name)
                 print("{}를 잡았습니다!!!".format(enemy.name))
+            self.exp += enemy.exp
+            if self.exp>=level*100:
+                self.level_up()
+
+    def attack2(self,trainer):
+        if trainer.pokemon_list[0].curr_hp<=0:
+            print("포켓몬을 바꿔주세요")
+            trainer.change_pokemon()
+
+    def level_up(self):
+        if self.exp>=self.level*100:
+            print("축하합니다 {}가 레벨업을 했습니다 ".format(self.name))
+            self.exp -= self.level*100
+            self.level +=1
+            self.level_up()
 
 
         
